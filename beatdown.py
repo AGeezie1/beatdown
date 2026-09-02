@@ -14,8 +14,7 @@ pygame.display.set_caption("BEATDOWN")
 
 clock = pygame.time.Clock()
 
-keys = pygame.key.getpressed()
-
+keys = pygame.key.get_pressed()
 
 running = True
 while running:
@@ -33,6 +32,7 @@ while running:
                 print("RIGHT")
             if event.key == pygame.K_DOWN:
                 print("DOWN")
+
 
             if event.key == pygame.K_a:
                 print("LEFT")
