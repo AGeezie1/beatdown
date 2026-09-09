@@ -25,20 +25,17 @@ class Platform:
 
     def draw(self,surface):
         pygame.draw.rect(surface,self.color,self.rect)
-        
 
-stage = Platform(100,350,600,150,(150,230,100))
+#class Notes:
+   # def __init__(self,x,y,width,hight,tempo,speed):
 
-def perspective_shifter(direction, amount):
-    if direction == "left":
-        stage.rect.x -= amount
-    if direction == "right":
-        stage.rect.x += amount
+
+stage = Platform(100,250,600,350,(150,230,100))
 
     
 running = True
 while running:
-    # Handle events
+    #events
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -66,11 +63,7 @@ while running:
 
 
 
-            #just for some debugging 
-            if event.key == pygame.K_9:
-                perspective_shifter("left",5)
-            if event.key == pygame.K_0:
-                perspective_shifter("right",5)
+
 
 
 
@@ -78,7 +71,7 @@ while running:
 
     
 
-    screen.fill((240,240,240))
+    screen.fill((53,102,55))
     stage.draw(screen) 
 
 
