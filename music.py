@@ -6,7 +6,3 @@ def start_music():
     pygame.mixer.music.set_volume(1.0)
     pygame.mixer.music.play()
 
-start_music()
-
-while True:
-    pass

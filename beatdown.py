@@ -2,7 +2,7 @@ import pygame
 import sys
 import notes
 import time
-
+import music
 # Initialize Pygame
 pygame.init()
 
@@ -15,8 +15,11 @@ loaded_song = notes.load_song('example')
 tempo = loaded_song['tempo']
 start_time = time.time()
 
+music.start_music()
+
 # Create window
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
+
 pygame.display.set_caption("BEATDOWN")
 clock = pygame.time.Clock()
 
@@ -30,19 +33,45 @@ class Platform:
 
 stage = Platform(100,250,600,350,(150,230,100))
 
+
+triangle_points = [(25,0),(25,50),(50,25)]
+
+
 class NoteButton:
-    def __init__(self, position, type, player_number):
-        self.position = position
-        self.type = type
+    def __init__(self, x,y, width, hight, player_number, button):
         self.player = player_number
+        self.rect = pygame.Rect(x, y, width, hight)
+        self.button = button
+        self.surface = pygame.Surface((50,50))
+        self.surface.set_colorkey((0,0,0)) 
+        pygame.draw.rect(self.surface,(255,0,0), self.rect)
+        
+        
+        
 
     def draw(self):
-        pygame.draw.circle(screen, (255, 0, 0), self.position, 15)
+        if self.button == 0:
+            pygame.draw.polygon(self.surface, (255,0,0),triangle_points)
+        elif self.button == 1:
+            pygame.draw.polygon(self.surface, (255,0,0),triangle_points)
+            self.surface = pygame.transform.rotate(self.surface, 90)
+        elif self.button == 2:
+            pygame.draw.polygon(self.surface, (255,0,0),triangle_points)
+            self.surface = pygame.transform.rotate(self.surface, 180)
+        elif self.button == 3:
+            pygame.draw.polygon(self.surface, (255,0,0),triangle_points)
+            self.surface = pygame.transform.rotate(self.surface, -90)
+            
+        screen.blit(self.surface, self.rect)
 
-# 0 = left, 1 = right, 2 = up, 3 = down
-player_1_left = NoteButton((150, 300), 0, 0)
+# 0 = right, 1 = down, 2 = left, 3 = up
+
+player_1_right = NoteButton(100,100,50,50,1,1)
+
+
 
 running = True
+
 while running:
     #events
     for event in pygame.event.get():
@@ -74,10 +103,10 @@ while running:
     stage.draw(screen) 
 
     current_time = time.time() - start_time
-    current_beat = notes.get_beat(current_time, tempo)
-    buttons = notes.get_buttons(current_beat, loaded_song)
-    print('left needs to be pressed:', buttons[0])
-    player_1_left.draw()
+    #current_beat = notes.get_beat(current_time, tempo)
+    #buttons = notes.get_buttons(current_beat, loaded_song)
+    #print('left needs to be pressed:', buttons[0])
+    player_1_right.draw()
 
     pygame.display.flip()
 
