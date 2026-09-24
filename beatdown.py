@@ -44,24 +44,20 @@ class NoteButton:
         self.button = button
         self.surface = pygame.Surface((50,50))
         self.surface.set_colorkey((0,0,0)) 
-        pygame.draw.rect(self.surface,(255,0,0), self.rect)
+        pygame.draw.polygon(self.surface,(255,0,0),triangle_points)
+
+        if self.button == 1:
+            self.surface = pygame.transform.rotate(self.surface, 90)
+        elif self.button == 2:
+            self.surface = pygame.transform.rotate(self.surface, 180)
+        elif self.button == 3:
+            self.surface = pygame.transform.rotate(self.surface, -90)
 
     
     
         
     def draw(self):
-        if self.button == 0:
-            pygame.draw.polygon(self.surface, (255,0,0),triangle_points)
-        elif self.button == 1:
-            pygame.draw.polygon(self.surface, (255,0,0),triangle_points)
-            self.surface = pygame.transform.rotate(self.surface, 90)
-        elif self.button == 2:
-            pygame.draw.polygon(self.surface, (255,0,0),triangle_points)
-            self.surface = pygame.transform.rotate(self.surface, 180)
-        elif self.button == 3:
-            pygame.draw.polygon(self.surface, (255,0,0),triangle_points)
-            self.surface = pygame.transform.rotate(self.surface, -90)
-            
+        #pygame.draw.polygon(self.surface,(255,0,0),triangle_points)
         screen.blit(self.surface, self.rect)
 
 # 0 = right, 1 = down, 2 = left, 3 = up
