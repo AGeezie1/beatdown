@@ -15,7 +15,7 @@ loaded_song = notes.load_song('example')
 tempo = loaded_song['tempo']
 start_time = time.time()
 
-music.start_music()
+#music.start_music()
 
 # Create window
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -45,10 +45,10 @@ class NoteButton:
         self.surface = pygame.Surface((50,50))
         self.surface.set_colorkey((0,0,0)) 
         pygame.draw.rect(self.surface,(255,0,0), self.rect)
-        
-        
-        
 
+    
+    
+        
     def draw(self):
         if self.button == 0:
             pygame.draw.polygon(self.surface, (255,0,0),triangle_points)
@@ -66,7 +66,11 @@ class NoteButton:
 
 # 0 = right, 1 = down, 2 = left, 3 = up
 
-player_1_right = NoteButton(100,100,50,50,1,1)
+player_1_right = NoteButton(100,100,50,50,1,0)
+player_1_down = NoteButton(150,100,50,50,1,2)
+player_1_left = NoteButton(200,100,50,50,1,3)
+player_1_up = NoteButton(250,100,50,50,1,4)
+
 
 
 
@@ -107,6 +111,9 @@ while running:
     #buttons = notes.get_buttons(current_beat, loaded_song)
     #print('left needs to be pressed:', buttons[0])
     player_1_right.draw()
+    player_1_down.draw()
+    player_1_left.draw()
+    player_1_up.draw()
 
     pygame.display.flip()
 
