@@ -15,7 +15,7 @@ loaded_song = notes.load_song('example')
 tempo = loaded_song['tempo']
 start_time = time.time()
 
-#music.start_music()
+music.start_music()
 
 # Create window
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -47,11 +47,11 @@ class NoteButton:
         pygame.draw.polygon(self.surface,(255,0,0),triangle_points)
 
         if self.button == 1:
-            self.surface = pygame.transform.rotate(self.surface, 90)
+            self.surface = pygame.transform.rotate(self.surface, -180)
         elif self.button == 2:
-            self.surface = pygame.transform.rotate(self.surface, 180)
+            self.surface = pygame.transform.rotate(self.surface, 270)
         elif self.button == 3:
-            self.surface = pygame.transform.rotate(self.surface, -90)
+            self.surface = pygame.transform.rotate(self.surface, 90)
 
     
     
@@ -59,14 +59,13 @@ class NoteButton:
     def draw(self):
         #pygame.draw.polygon(self.surface,(255,0,0),triangle_points)
         screen.blit(self.surface, self.rect)
+        self.rect.y -= 2
 
 # 0 = right, 1 = down, 2 = left, 3 = up
-
-player_1_right = NoteButton(100,100,50,50,1,0)
-player_1_down = NoteButton(150,100,50,50,1,2)
-player_1_left = NoteButton(200,100,50,50,1,3)
-player_1_up = NoteButton(250,100,50,50,1,4)
-
+player_1_left = NoteButton(100,550,50,50,1,1)
+player_1_down = NoteButton(160,550,50,50,1,2)
+player_1_up = NoteButton(210,550,50,50,1,3)
+player_1_right = NoteButton(260,550,50,50,1,0)
 
 
 
