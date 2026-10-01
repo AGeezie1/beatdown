@@ -3,6 +3,7 @@ import sys
 import notes
 import time
 import music
+
 # Initialize Pygame
 pygame.init()
 
@@ -55,7 +56,8 @@ class NoteButton:
 
     
     
-        
+    
+
     def draw(self):
         #pygame.draw.polygon(self.surface,(255,0,0),triangle_points)
         screen.blit(self.surface, self.rect)
@@ -67,6 +69,40 @@ player_1_down = NoteButton(160,550,50,50,1,2)
 player_1_up = NoteButton(210,550,50,50,1,3)
 player_1_right = NoteButton(260,550,50,50,1,0)
 
+player_2_left = NoteButton(450,550,50,50,2,1)
+player_2_down = NoteButton(510,550,50,50,2,2)
+player_2_up = NoteButton(560,550,50,50,2,3)
+player_2_right = NoteButton(610,550,50,50,2,0)
+
+player_1_list = []
+player_2_list = []
+
+song_length = len(loaded_song["tracks"][0])
+for beat in range(song_length):
+    print(notes.get_buttons(beat,loaded_song))
+    beat_list = notes.get_buttons(beat,loaded_song)
+
+    if beat_list[0] == 1:
+            
+        player_1_list.append(player_1_right)
+        player_2_list.append(player_2_right)
+        
+    if beat_list[1] == 1:
+        
+        player_1_list.append(player_1_down)
+        player_2_list.append(player_2_down)
+
+    if beat_list[2] == 1:
+            
+        player_1_list.append(player_1_left)
+        player_2_list.append(player_2_left)
+
+    if beat_list[3] == 1:
+            
+        player_1_list.append(player_1_up)
+        player_2_list.append(player_2_up)
+        
+    #print(beat)
 
 
 running = True
@@ -105,10 +141,14 @@ while running:
     #current_beat = notes.get_beat(current_time, tempo)
     #buttons = notes.get_buttons(current_beat, loaded_song)
     #print('left needs to be pressed:', buttons[0])
-    player_1_right.draw()
-    player_1_down.draw()
-    player_1_left.draw()
-    player_1_up.draw()
+
+    if player_1_list:
+        for note in player_1_list:
+            note.draw()
+
+    if player_2_list:
+        for note in player_2_list:
+            note.draw()
 
     pygame.display.flip()
 
