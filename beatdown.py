@@ -34,8 +34,9 @@ class Platform:
 
 stage = Platform(100,250,600,350,(150,230,100))
 
-
+index = 0
 triangle_points = [(25,0),(25,50),(50,25)]
+elapsed_time = 0
 
 
 class NoteButton:
@@ -53,10 +54,6 @@ class NoteButton:
             self.surface = pygame.transform.rotate(self.surface, 270)
         elif self.button == 3:
             self.surface = pygame.transform.rotate(self.surface, 90)
-
-    
-    
-    
 
     def draw(self):
         #pygame.draw.polygon(self.surface,(255,0,0),triangle_points)
@@ -78,29 +75,29 @@ player_1_list = []
 player_2_list = []
 
 song_length = len(loaded_song["tracks"][0])
-for beat in range(song_length):
-    print(notes.get_buttons(beat,loaded_song))
+
+def Button_check(beat,song_length,loaded_song):
+    #print(notes.get_buttons(beat,loaded_song))
     beat_list = notes.get_buttons(beat,loaded_song)
 
     if beat_list[0] == 1:
             
-        player_1_list.append(player_1_right)
-        player_2_list.append(player_2_right)
+        player_1_list.append(NoteButton(260,550,50,50,1,0))
+        player_2_list.append(NoteButton(610,550,50,50,2,0))
         
     if beat_list[1] == 1:
         
-        player_1_list.append(player_1_down)
-        player_2_list.append(player_2_down)
+        player_1_list.append(NoteButton(160,550,50,50,1,2))
+        player_2_list.append(NoteButton(510,550,50,50,2,2))
 
     if beat_list[2] == 1:
-            
-        player_1_list.append(player_1_left)
-        player_2_list.append(player_2_left)
+        player_1_list.append(NoteButton(100,550,50,50,1,1))
+        player_2_list.append(NoteButton(450,550,50,50,2,1))
 
     if beat_list[3] == 1:
             
-        player_1_list.append(player_1_up)
-        player_2_list.append(player_2_up)
+        player_1_list.append(NoteButton(210,550,50,50,1,3))
+        player_2_list.append(NoteButton(560,550,50,50,2,3))
         
     #print(beat)
 
@@ -136,7 +133,19 @@ while running:
 
     screen.fill((53,102,55))
     stage.draw(screen) 
+    
+    dt = clock.tick(FPS)
+    #print("dt: ", dt)
+    elapsed_time += dt
+    #print("elapsed ", elapsed_time)
 
+    if elapsed_time / 1000 >= tempo / 60: #time between beats
+        Button_check(index,song_length,loaded_song)
+        elapsed_time = 0
+        
+        index += 1
+        
+    
     current_time = time.time() - start_time
     #current_beat = notes.get_beat(current_time, tempo)
     #buttons = notes.get_buttons(current_beat, loaded_song)
@@ -152,7 +161,6 @@ while running:
 
     pygame.display.flip()
 
-    clock.tick(FPS)
 
 pygame.quit()
 sys.exit()

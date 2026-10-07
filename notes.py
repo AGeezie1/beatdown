@@ -12,4 +12,4 @@ def get_beat(seconds, tempo):
 def get_buttons(beat, song_data):
     return [song_data["tracks"][track][beat] for track in range(4)]
 
-print(get_buttons(0, load_song('example')))
+print(get_buttons(1, load_song('example')))
