@@ -37,6 +37,9 @@ stage = Platform(100,250,600,350,(150,230,100))
 index = 0
 triangle_points = [(25,0),(25,50),(50,25)]
 elapsed_time = 0
+y_speed = 2
+
+
 
 class TargetNote:
     def __init__(self,x,y,width,hight,player_number,button):
@@ -84,9 +87,10 @@ class NoteButton:
         #pygame.draw.polygon(self.surface,(255,0,0),triangle_points)
         if self.visible == True:
             screen.blit(self.surface, self.rect)
-            self.rect.y -= 2
+            self.rect.y -= y_speed 
 
-    
+
+
 
 # 0 = right, 2 = down, 1 = left, 3 = up
 '''
@@ -123,30 +127,49 @@ def Button_check(beat,song_length,loaded_song):
 
     if beat_list[0] == 1:
             
-        player_1_list.append(NoteButton(260,550,50,50,1,0))
-        player_2_list.append(NoteButton(610,550,50,50,2,0))
+        player_1_list.append(NoteButton(260,490,50,50,1,0))
+        player_2_list.append(NoteButton(610,490,50,50,2,0))
         
     if beat_list[1] == 1:
         
-        player_1_list.append(NoteButton(160,550,50,50,1,2))
-        player_2_list.append(NoteButton(510,550,50,50,2,2))
+        player_1_list.append(NoteButton(160,490,50,50,1,2))
+        player_2_list.append(NoteButton(510,490,50,50,2,2))
 
     if beat_list[2] == 1:
-        player_1_list.append(NoteButton(100,550,50,50,1,1))
-        player_2_list.append(NoteButton(450,550,50,50,2,1))
+        player_1_list.append(NoteButton(100,490,50,50,1,1))
+        player_2_list.append(NoteButton(450,490,50,50,2,1))
 
     if beat_list[3] == 1:
             
-        player_1_list.append(NoteButton(210,550,50,50,1,3))
-        player_2_list.append(NoteButton(560,550,50,50,2,3))
+        player_1_list.append(NoteButton(210,375,50,50,1,3))
+        player_2_list.append(NoteButton(560,375,50,50,2,3))
+
 
 running = True
 
 p1_score = 0
 p2_score = 0
 
-every_sec = 0
+#this indecates which player is currently winning the lead function shows it
+tilt = 0
+#this is called every time you press a note button
+def update_tilt(player, score):
+    global tilt
+    if player == 1:
+        tilt += score
+    if player == 2:
+        tilt -= score
 
+#if the score is more than 0 then that means player 1's button presses were closer than player 2s
+#and vice versa
+def lead():
+    if tilt < 0:
+        print("player 1 is more accurate!")
+    if tilt > 0:
+        print("player 2 is more accurate")
+
+
+every_sec = 0
 while running:
     #events
     for event in pygame.event.get():
@@ -162,27 +185,28 @@ while running:
                     for note in player_1_list:
                         if note.button == 1 and note.visible == True:
                             print(f"p1 left: {p1_left_target.rect.y - note.rect.y}")
-                            p1_score += abs(p1_left_target.rect.y - note.rect.y)
+                            #this gets the formula on how far you are away from 0
+                            update_tilt(1,abs(p1_left_target.rect.y - note.rect.y))
 
             if event.key == pygame.K_w:
                 if player_1_list:
                     for note in player_1_list:
                         if note.button == 3 and note.visible == True:
                             print(f"p1 up: {p1_up_target.rect.y - note.rect.y}")
-                            p1_score += abs(p1_up_target.rect.y - note.rect.y)
+                            update_tilt(1,abs(p1_up_target.rect.y - note.rect.y))
 
             if event.key == pygame.K_d:
                 if player_1_list:
                     for note in player_1_list:
                         if note.button == 0 and note.visible == True:
                             print(f"p1 right: {p1_right_target.rect.y - note.rect.y}")
-                            p1_score += abs(p1_right_target.rect.y - note.rect.y)
+                            update_tilt(1,abs(p1_right_target.rect.y - note.rect.y))
             if event.key == pygame.K_s:
                 if player_1_list:
                     for note in player_1_list:
                         if note.button == 2 and note.visible == True:
                             print(f"p1 down: {p1_down_target.rect.y - note.rect.y}")
-                            p1_score += abs(p1_down_target.rect.y - note.rect.y)
+                            update_tilt(1,abs(p1_down_target.rect.y - note.rect.y))
             
             #PLAYER 2 
             if event.key == pygame.K_LEFT:
@@ -190,25 +214,26 @@ while running:
                     for note in player_2_list:
                         if note.button == 1 and note.visible == True:
                             print(f"p2 left: {p2_left_target.rect.y - note.rect.y}")
-                            p2_score += abs(p2_left_target.rect.y - note.rect.y)
+                            update_tilt(2,abs(p2_left_target.rect.y - note.rect.y))
             if event.key == pygame.K_UP:
                 if player_2_list:
                     for note in player_2_list:
                         if note.button == 3 and note.visible == True:
                             print(f"p2 up: {p2_up_target.rect.y - note.rect.y}")
-                            p2_score += abs(p2_up_target.rect.y - note.rect.y)
+                            update_tilt(2,abs(p2_up_target.rect.y - note.rect.y))
             if event.key == pygame.K_RIGHT:
                 if player_2_list:
                     for note in player_2_list:
                         if note.button == 0 and note.visible == True:
                             print(f"p2 right: {p2_right_target.rect.y - note.rect.y}")
-                            p2_score += abs(p2_right_target.rect.y - note.rect.y)
+                            update_tilt(2,abs(p2_right_target.rect.y - note.rect.y))
             if event.key == pygame.K_DOWN:
                  if player_2_list:
                     for note in player_2_list:
                         if note.button == 2 and note.visible == True:
                             print(f"p2 down: {p2_down_target.rect.y - note.rect.y}")
-                            p2_score += abs(p2_down_target.rect.y - note.rect.y)
+                            update_tilt(2,abs(p2_down_target.rect.y - note.rect.y))
+                            
 
     screen.fill((53,102,55))
     stage.draw(screen) 
@@ -217,6 +242,7 @@ while running:
     #print("dt: ", dt)
     elapsed_time += dt
     #print("elapsed ", elapsed_time)
+    
 
     if elapsed_time / 1000 >= tempo / 60: #time between beats
         Button_check(index,song_length,loaded_song)
@@ -253,23 +279,13 @@ while running:
             if note.rect.y <= 200:
                 note.hide()
 
-
-
-
     every_sec += 1
-    if every_sec == 60:
-        print("SCORES:")
-        print(f"P1 {p1_score}")
-        print(f"P2 {p2_score}")
-        every_sec = 0
-        if p1_score < p2_score:
-            print("p1 in the lead!")
-        elif p2_score < p1_score:
-            print("p2 in the lead")
-        elif p2_score == p1_score:
-            print("its neck and neck!s")
-            
 
+    if every_sec == 60:
+        lead()
+        every_sec = 0
+
+            
     
     pygame.display.flip()
     
