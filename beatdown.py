@@ -139,11 +139,13 @@ def Button_check(beat,song_length,loaded_song):
             
         player_1_list.append(NoteButton(210,550,50,50,1,3))
         player_2_list.append(NoteButton(560,550,50,50,2,3))
-        
-
 
 running = True
 
+p1_score = 0
+p2_score = 0
+
+every_sec = 0
 
 while running:
     #events
@@ -160,45 +162,53 @@ while running:
                     for note in player_1_list:
                         if note.button == 1 and note.visible == True:
                             print(f"p1 left: {p1_left_target.rect.y - note.rect.y}")
+                            p1_score += abs(p1_left_target.rect.y - note.rect.y)
 
             if event.key == pygame.K_w:
                 if player_1_list:
                     for note in player_1_list:
                         if note.button == 3 and note.visible == True:
-                            print(f"p1 up: {p1_left_target.rect.y - note.rect.y}")
+                            print(f"p1 up: {p1_up_target.rect.y - note.rect.y}")
+                            p1_score += abs(p1_up_target.rect.y - note.rect.y)
 
             if event.key == pygame.K_d:
                 if player_1_list:
                     for note in player_1_list:
                         if note.button == 0 and note.visible == True:
-                            print(f"p1 right: {p1_left_target.rect.y - note.rect.y}")
+                            print(f"p1 right: {p1_right_target.rect.y - note.rect.y}")
+                            p1_score += abs(p1_right_target.rect.y - note.rect.y)
             if event.key == pygame.K_s:
                 if player_1_list:
                     for note in player_1_list:
                         if note.button == 2 and note.visible == True:
-                            print(f"p1 down: {p1_left_target.rect.y - note.rect.y}")
+                            print(f"p1 down: {p1_down_target.rect.y - note.rect.y}")
+                            p1_score += abs(p1_down_target.rect.y - note.rect.y)
             
             #PLAYER 2 
             if event.key == pygame.K_LEFT:
                 if player_2_list:
                     for note in player_2_list:
                         if note.button == 1 and note.visible == True:
-                            print(f"p2 left: {p1_left_target.rect.y - note.rect.y}")
+                            print(f"p2 left: {p2_left_target.rect.y - note.rect.y}")
+                            p2_score += abs(p2_left_target.rect.y - note.rect.y)
             if event.key == pygame.K_UP:
                 if player_2_list:
                     for note in player_2_list:
                         if note.button == 3 and note.visible == True:
-                            print(f"p2 up: {p1_left_target.rect.y - note.rect.y}")
+                            print(f"p2 up: {p2_up_target.rect.y - note.rect.y}")
+                            p2_score += abs(p2_up_target.rect.y - note.rect.y)
             if event.key == pygame.K_RIGHT:
                 if player_2_list:
                     for note in player_2_list:
                         if note.button == 0 and note.visible == True:
-                            print(f"p2 right: {p1_left_target.rect.y - note.rect.y}")
+                            print(f"p2 right: {p2_right_target.rect.y - note.rect.y}")
+                            p2_score += abs(p2_right_target.rect.y - note.rect.y)
             if event.key == pygame.K_DOWN:
                  if player_2_list:
                     for note in player_2_list:
                         if note.button == 2 and note.visible == True:
-                            print(f"p2 down: {p1_left_target.rect.y - note.rect.y}")
+                            print(f"p2 down: {p2_down_target.rect.y - note.rect.y}")
+                            p2_score += abs(p2_down_target.rect.y - note.rect.y)
 
     screen.fill((53,102,55))
     stage.draw(screen) 
@@ -242,6 +252,23 @@ while running:
             note.draw()
             if note.rect.y <= 200:
                 note.hide()
+
+
+
+
+    every_sec += 1
+    if every_sec == 60:
+        print("SCORES:")
+        print(f"P1 {p1_score}")
+        print(f"P2 {p2_score}")
+        every_sec = 0
+        if p1_score < p2_score:
+            print("p1 in the lead!")
+        elif p2_score < p1_score:
+            print("p2 in the lead")
+        elif p2_score == p1_score:
+            print("its neck and neck!s")
+            
 
     
     pygame.display.flip()
