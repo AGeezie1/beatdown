@@ -68,6 +68,7 @@ class NoteButton:
         self.surface = pygame.Surface((50,50))
         self.surface.set_colorkey((0,0,0))
         self.visible = True
+        self.hit = False
         pygame.draw.polygon(self.surface,(255,0,0,0),triangle_points)
 
         if self.button == 1:
@@ -209,55 +210,63 @@ while running:
             if event.key == pygame.K_a:
                 if player_1_list:
                     for note in player_1_list:
-                        if note.button == 1 and note.visible == True:
+                        if note.button == 1 and note.visible == True and note.hit == False:
                             print(f"p1 left: {p1_left_target.rect.y - note.rect.y}")
                             #this gets the formula on how far you are away from 0
+                            note.hit = True
                             update_tilt(1,abs(p1_left_target.rect.y - note.rect.y))
 
             if event.key == pygame.K_w:
                 if player_1_list:
                     for note in player_1_list:
-                        if note.button == 3 and note.visible == True:
+                        if note.button == 3 and note.visible == True and note.hit == False:
                             print(f"p1 up: {p1_up_target.rect.y - note.rect.y}")
+                            note.hit = True
                             update_tilt(1,abs(p1_up_target.rect.y - note.rect.y))
 
             if event.key == pygame.K_d:
                 if player_1_list:
                     for note in player_1_list:
-                        if note.button == 0 and note.visible == True:
+                        if note.button == 0 and note.visible == True and note.hit == False:
                             print(f"p1 right: {p1_right_target.rect.y - note.rect.y}")
+                            note.hit = True
                             update_tilt(1,abs(p1_right_target.rect.y - note.rect.y))
             if event.key == pygame.K_s:
                 if player_1_list:
                     for note in player_1_list:
-                        if note.button == 2 and note.visible == True:
+                        if note.button == 2 and note.visible == True and note.hit == False:
                             print(f"p1 down: {p1_down_target.rect.y - note.rect.y}")
+                            note.hit = True
                             update_tilt(1,abs(p1_down_target.rect.y - note.rect.y))
             
             #PLAYER 2 
             if event.key == pygame.K_LEFT:
                 if player_2_list:
                     for note in player_2_list:
-                        if note.button == 1 and note.visible == True:
+                        if note.button == 1 and note.visible == True and note.hit == False:
                             print(f"p2 left: {p2_left_target.rect.y - note.rect.y}")
+                            note.hit = True
                             update_tilt(2,abs(p2_left_target.rect.y - note.rect.y))
             if event.key == pygame.K_UP:
                 if player_2_list:
                     for note in player_2_list:
-                        if note.button == 3 and note.visible == True:
+                        if note.button == 3 and note.visible == True and note.hit == False:
                             print(f"p2 up: {p2_up_target.rect.y - note.rect.y}")
+                            note.hit = True
                             update_tilt(2,abs(p2_up_target.rect.y - note.rect.y))
             if event.key == pygame.K_RIGHT:
                 if player_2_list:
                     for note in player_2_list:
-                        if note.button == 0 and note.visible == True:
+                        if note.button == 0 and note.visible == True and note.hit == False:
                             print(f"p2 right: {p2_right_target.rect.y - note.rect.y}")
+                            note.hit = True
                             update_tilt(2,abs(p2_right_target.rect.y - note.rect.y))
             if event.key == pygame.K_DOWN:
                  if player_2_list:
                     for note in player_2_list:
-                        if note.button == 2 and note.visible == True:
+                        if note.button == 2 and note.visible == True and note.hit == False:
                             print(f"p2 down: {p2_down_target.rect.y - note.rect.y}")
+                            note.hit = True
                             update_tilt(2,abs(p2_down_target.rect.y - note.rect.y))
                             
 
