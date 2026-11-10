@@ -89,6 +89,28 @@ class NoteButton:
             screen.blit(self.surface, self.rect)
             self.rect.y -= y_speed 
 
+og_image = pygame.image.load("push.gif")
+
+image = pygame.transform.scale(og_image, (150,100))
+class Player:
+    def __init__(self,x,y,width,hight):
+        self.x = x
+        self.y = y
+        self.width = width
+        self.hight = hight
+        
+        #self.rect = pygame.Rect(self.x,self.y,self.width,self.hight)
+        #self.center = self.rect.center
+        self.image = image
+        self.rect = self.image.get_rect(center=(self.x,self.y))
+
+    def draw(self):
+        pygame.draw.rect(screen,(255,0,0), self.rect,3)
+        screen.blit(self.image,self.rect)
+
+    def move(self):
+        self.rect.x += tilt / 100
+
 
 
 
@@ -145,10 +167,9 @@ def Button_check(beat,song_length,loaded_song):
         player_2_list.append(NoteButton(560,375,50,50,2,3))
 
 
+
 running = True
 
-p1_score = 0
-p2_score = 0
 
 #this indecates which player is currently winning the lead function shows it
 tilt = 0
@@ -168,8 +189,13 @@ def lead():
     if tilt > 0:
         print("player 2 is more accurate")
 
+    print(f"tilt = {tilt}")
+
 
 every_sec = 0
+
+player = Player(400,200,300,220)
+
 while running:
     #events
     for event in pygame.event.get():
@@ -285,7 +311,9 @@ while running:
         lead()
         every_sec = 0
 
-            
+    player.draw()
+    player.move()
+
     
     pygame.display.flip()
     
